@@ -25,6 +25,7 @@ public class FloatingBubbleConfig {
     private int touchClickTime;
     private boolean physicsEnabled;
     private boolean moveBubbleOnTouch;
+    private FloatingBubbleTouchListener bubbleTouchListener;
 
     private FloatingBubbleConfig(Builder builder) {
         bubbleIcon = builder.bubbleIcon;
@@ -44,6 +45,7 @@ public class FloatingBubbleConfig {
         physicsEnabled = builder.physicsEnabled;
         removeBubbleAlpha = builder.removeBubbleAlpha;
         moveBubbleOnTouch = builder.moveBubbleOnTouch;
+        bubbleTouchListener = builder.bubbleTouchListener;
     }
 
     public static Builder getDefaultBuilder(Context context) {
@@ -74,6 +76,10 @@ public class FloatingBubbleConfig {
 
     public Drawable getBubbleExpansionIcon() {
         return bubbleExpansionIcon;
+    }
+
+    public FloatingBubbleTouchListener getBubbleTouchListener() {
+        return bubbleTouchListener;
     }
 
     public View getExpandableView() {
@@ -147,7 +153,14 @@ public class FloatingBubbleConfig {
         private boolean physicsEnabled = true;
         private boolean moveBubbleOnTouch = true;
 
+        private FloatingBubbleTouchListener bubbleTouchListener;
+
         public Builder() {
+        }
+
+        public Builder bubbleTouchListener(FloatingBubbleTouchListener listener) {
+            this.bubbleTouchListener = listener;
+            return this;
         }
 
         public Builder bubbleIcon(Drawable val) {

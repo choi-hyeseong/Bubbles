@@ -5,7 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
-public class FloatingBubblePhysics extends DefaultFloatingBubbleTouchListener {
+public class FloatingBubblePhysics implements FloatingBubbleTouchListener {
 
     private int sizeX;
     private int sizeY;
@@ -36,14 +36,22 @@ public class FloatingBubblePhysics extends DefaultFloatingBubbleTouchListener {
 
     @Override
     public void onDown(float x, float y) {
-        super.onDown(x, y);
         previous[0] = null;
         previous[1] = new Point((int) x, (int) y);
     }
 
     @Override
+    public void onTap(boolean expanded) {
+
+    }
+
+    @Override
+    public void onRemove() {
+
+    }
+
+    @Override
     public void onMove(float x, float y) {
-        super.onMove(x, y);
         addSelectively(x, y);
     }
 

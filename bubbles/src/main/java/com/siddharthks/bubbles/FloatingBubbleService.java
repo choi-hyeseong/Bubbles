@@ -52,6 +52,8 @@ public class FloatingBubbleService extends Service {
     private FloatingBubblePhysics physics;
     private FloatingBubbleTouch touch;
 
+    private FloatingBubbleTouchListener listener;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -153,6 +155,12 @@ public class FloatingBubbleService extends Service {
         removeBubbleView.setAlpha(config.getRemoveBubbleAlpha());
         windowManager.addView(removeBubbleView, removeBubbleParams);
 
+        FloatingBubbleTouchListener listener = config.getBubbleTouchListener();
+        if (listener == null)
+            this.listener = FloatingBubbleTouchListener.getDefaultTouchListener(this::stopSelf);
+        else
+            this.listener = listener;
+
         // Setting up the Expandable View setup
         expandableParams = getDefaultWindowParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -240,7 +248,7 @@ public class FloatingBubbleService extends Service {
         touch = new FloatingBubbleTouch.Builder()
                 .sizeX(windowSize.x)
                 .sizeY(windowSize.y)
-                .listener(getTouchListener())
+                .listener(listener)
                 .physics(physics)
                 .bubbleView(bubbleView)
                 .removeBubbleSize(dpToPixels(config.getRemoveBubbleIconDp()))
@@ -255,20 +263,6 @@ public class FloatingBubbleService extends Service {
                 .build();
 
         bubbleView.setOnTouchListener(touch);
-    }
-
-    /**
-     * Gets the touch listener for the bubble
-     *
-     * @return the touch listener
-     */
-    public FloatingBubbleTouchListener getTouchListener() {
-        return new DefaultFloatingBubbleTouchListener() {
-            @Override
-            public void onRemove() {
-                stopSelf();
-            }
-        };
     }
 
     /**
