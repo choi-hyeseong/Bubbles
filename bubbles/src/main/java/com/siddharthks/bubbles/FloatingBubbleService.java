@@ -155,9 +155,10 @@ public class FloatingBubbleService extends Service {
         removeBubbleView.setAlpha(config.getRemoveBubbleAlpha());
         windowManager.addView(removeBubbleView, removeBubbleParams);
 
+        // if listener doesn't be set.
         FloatingBubbleTouchListener listener = config.getBubbleTouchListener();
         if (listener == null)
-            this.listener = FloatingBubbleTouchListener.getDefaultTouchListener(this::stopSelf);
+            this.listener = new DefaultBubbleTouchListener(); // set default listener
         else
             this.listener = listener;
 
@@ -428,5 +429,38 @@ public class FloatingBubbleService extends Service {
     private int dpToPixels(int dpSize) {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         return Math.round(dpSize * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    /**
+     *
+     * For Default Touch Listener Implementation
+     * when it removes, service will be stopped
+     */
+    private class DefaultBubbleTouchListener implements FloatingBubbleTouchListener {
+
+        @Override
+        public void onDown(float x, float y) {
+
+        }
+
+        @Override
+        public void onTap(boolean expanded) {
+
+        }
+
+        @Override
+        public void onRemove() {
+            stopSelf();
+        }
+
+        @Override
+        public void onMove(float x, float y) {
+
+        }
+
+        @Override
+        public void onUp(float x, float y) {
+
+        }
     }
 }
