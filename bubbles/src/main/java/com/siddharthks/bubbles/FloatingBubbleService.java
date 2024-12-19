@@ -389,6 +389,16 @@ public class FloatingBubbleService extends Service {
     }
 
     /**
+     * Reset the counter in the notification view
+     * PLZ DO NOT SAVE VALUE ONLY INSIDE OF THE VIEW...
+     */
+    protected void resetNotificationCounter() {
+        final TextView notificationCounter = bubbleView.findViewById(R.id.counter_notification);
+        bubbleView.findViewById(R.id.notification_view).setVisibility(View.GONE); // invisible counter
+        notificationCounter.setText(0);
+    }
+
+    /**
      * Changes the bubble icon and keeps the original
      * @param updatedIcon The new bubble icon
      */
